@@ -6,7 +6,7 @@ HOST CLS
 PROMPT '>> Connexion en tant que SYSDBA'
 CONNECT system
 
--- Décommenter si besoin de supprimer un ancien utilisateur
+-- Décommenter si besoin de suppression
 /*
 PROMPT '>> Suppression de l\'utilisateur dmi_user existant'
 DROP USER dmi_user CASCADE;
@@ -17,12 +17,12 @@ DROP TABLESPACE INDEX_DMI INCLUDING CONTENTS AND DATAFILES;
 */
 
 PROMPT '>> Création Utilisateur dmi_user'
+CREATE USER dmi_user IDENTIFIED BY dmi_user;
 
-CREATE USER dmi_user IDENTIFIED BY dmi_user 
-    DEFAULT TABLESPACE DATA_DMI 
-    TEMPORARY TABLESPACE TEMP 
-    QUOTA UNLIMITED ON DATA_DMI 
-    QUOTA UNLIMITED ON INDEX_DMI;
+PROMPT '>> Affectation tbs par défaut'
+ALTER USER dmi_user DEFAULT TABLESPACE DATA_DMI;
+ALTER USER dmi_user QUOTA UNLIMITED ON DATA_DMI;
+ALTER USER dmi_user QUOTA UNLIMITED ON INDEX_DMI;
 
 PROMPT '>> Attribution des privilèges à dmi_user'
 GRANT CONNECT TO dmi_user;
